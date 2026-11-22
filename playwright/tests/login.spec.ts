@@ -40,4 +40,11 @@ test.describe('Login', () => {
   // TODO (week 1 exercise): Juice Shop's login is vulnerable to SQL injection.
   // Write a test that logs in with email  ' OR 1=1--  and any password, and assert what happens.
   // Then write in a comment what bug report you'd file. This is your first "security-minded" test.
+
+test('rejects SQL injection in the email field @security', async ({ loginPage }) => {
+  test.fail(true, 'Known vulnerability: login is open to SQL injection. Remove test.fail() once fixed.');
+
+  await loginPage.login("' OR 1=1--", 'anyPassword');
+  await loginPage.expectLoggedOut();
+});
 });

@@ -5,12 +5,14 @@ export class ProductsPage {
   readonly searchInput: Locator;
   readonly productCards: Locator;
   readonly snackbar: Locator;
+  readonly noResultsMessage: Locator;
 
   constructor(private readonly page: Page) {
     this.searchIcon = page.locator('#searchQuery');
     this.searchInput = page.locator('#searchQuery input');
     this.productCards = page.locator('mat-card');
     this.snackbar = page.locator('simple-snack-bar');
+    this.noResultsMessage = page.getByText('No results found');
   }
 
   async goto() {
@@ -26,8 +28,8 @@ export class ProductsPage {
   /** Find a product card by its visible name, then click its "Add to Basket" button. */
   async addToBasket(productName: string) {
     const card = this.productCards.filter({
-    has: this.page.getByText(productName, { exact: true }),
-  });
+      has: this.page.getByText(productName, { exact: true }),
+    });
     await card.getByRole('button', { name: 'Add to Basket' }).click();
   }
 }

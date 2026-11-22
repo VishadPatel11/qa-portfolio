@@ -1,4 +1,10 @@
 import { defineConfig, devices } from '@playwright/test';
+import fs from 'fs';
+
+// Workaround: macOS 27 blocks unsigned Firefox builds from ~/Library/Application Support/Firefox
+// (Mozilla bug 2078511). Give Firefox its own data folders instead.
+const MOZ_DIRS = { MOZ_APP_DATA: '/tmp/pw-moz-appdata', MOZ_LOCAL_APP_DATA: '/tmp/pw-moz-localappdata' };
+Object.values(MOZ_DIRS).forEach((d) => fs.mkdirSync(d, { recursive: true }));
 
 /**
  * BASE_URL lets the same suite run against local Docker, a CI service container,
@@ -19,7 +25,13 @@ export default defineConfig({
   },
   projects: [
     { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
-    { name: 'firefox', use: { ...devices['Desktop Firefox'] } },
+    {
+  name: 'firefox',
+  use: {
+    ...devices['Desktop Firefox'],
+    launchOptions: { env: { ...(process.env as Record<string, string>), ...MOZ_DIRS } },
+  },
+},
     // TODO (week 2): add a mobile viewport project, e.g. devices['Pixel 7']
   ],
 });

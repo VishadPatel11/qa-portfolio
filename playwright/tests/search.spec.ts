@@ -16,7 +16,8 @@ test.describe('Product search', () => {
 
   test('shows no products for a nonsense term', async ({ productsPage }) => {
     await productsPage.search('zzzz-no-such-product');
-    await expect(productsPage.productCards).toHaveCount(0);
+    await expect(productsPage.noResultsMessage).toBeVisible();
+  await expect(productsPage.productCards.filter({ hasNotText: 'No results found' })).toHaveCount(0);
   });
 
   // TODO (week 1 exercise): is search case-insensitive? Write a test that searches "APPLE"
