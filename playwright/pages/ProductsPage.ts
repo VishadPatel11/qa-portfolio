@@ -1,4 +1,4 @@
-import { Locator, Page } from '@playwright/test';
+import { expect, Locator, Page } from '@playwright/test';
 
 export class ProductsPage {
   readonly searchIcon: Locator;
@@ -31,5 +31,19 @@ export class ProductsPage {
       has: this.page.getByText(productName, { exact: true }),
     });
     await card.getByRole('button', { name: 'Add to Basket' }).click();
+  }
+
+  async addToBasketAndWait(productName: string) {
+    const responsePromise = this.page.waitForResponse((response) => {
+      const method = response.request().method();
+      return (
+        (method === 'POST' || method === 'PUT') &&
+        response.url().includes('/api/BasketItems')
+      );
+    });
+
+    await this.addToBasket(productName);
+    const response = await responsePromise;
+    expect(response.ok(), `adding ${productName} to the basket`).toBeTruthy();
   }
 }
