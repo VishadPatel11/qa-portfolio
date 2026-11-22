@@ -1,0 +1,10 @@
+node_modules/
+test-results/
+playwright-report/
+blob-report/
+cypress-suite/cypress/videos/
+cypress-suite/cypress/screenshots/
+selenium-cucumber/target/
+.DS_Store
+.idea/
+.vscode/

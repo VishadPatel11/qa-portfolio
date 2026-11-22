@@ -1,0 +1,10 @@
+# App under test: OWASP Juice Shop
+# Start:  docker compose up -d      → http://localhost:3000
+# Reset:  docker compose restart    (Juice Shop keeps data in memory, so a restart wipes it)
+services:
+  juice-shop:
+    image: bkimminich/juice-shop:latest
+    container_name: juice-shop
+    ports:
+      - "3000:3000"
+    restart: unless-stopped

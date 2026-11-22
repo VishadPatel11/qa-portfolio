@@ -1,0 +1,14 @@
+{
+  "name": "juice-shop-cypress",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Cypress UI tests for OWASP Juice Shop (same flows as the Playwright suite, for comparison)",
+  "scripts": {
+    "cy:open": "cypress open",
+    "test": "cypress run",
+    "test:chrome": "cypress run --browser chrome"
+  },
+  "devDependencies": {
+    "cypress": "^15.0.0"
+  }
+}
